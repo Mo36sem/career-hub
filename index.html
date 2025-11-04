@@ -351,7 +351,14 @@ async function sendToN8n(msg, file, webhookUrl) {
                 : styles.chatMessageBot)
             }}
           >
-            {m.text}
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: m.text
+                              .replace(/\n/g, '<br>') // يحافظ على الأسطر
+                              .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // **bold**
+                              .replace(/\*(.*?)\*/g, '<em>$1</em>') // *italic*
+                              .replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer" style="color:#5B8DEF; text-decoration:underline;">$1</a>') // روابط
+}}/>
           </div>
         ))}
         <div ref={endRef} />
@@ -857,9 +864,17 @@ async function sendToN8n(msg, file, webhookUrl) {
                             textAlign: 'right'
                             },
                             chatMessageBot: {
-                            background: '#2C2C2C',  // فقاعة بوت رمادية
-                            color: '#F5F5F5',
-                            alignSelf: 'flex-start'
+                             alignSelf: 'flex-start',
+                                background: '#2B2B2B',
+                                color: '#F5F5F5',
+                                padding: '12px 16px',
+                                borderRadius: '14px',
+                                maxWidth: '90%',
+                                lineHeight: 1.6,
+                                fontSize: '15px',
+                                whiteSpace: 'pre-wrap', // يحافظ على المسافات
+                                wordBreak: 'break-word',
+                                boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
                             },
                             chatMessageError: {
                             background: '#7F1D1D',  // أحمر خطأ داكن
